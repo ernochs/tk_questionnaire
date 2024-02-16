@@ -67,7 +67,7 @@
             </a>
           </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="pages/forms/basic_elements.html">
+            <a class="nav-link" href="admin/post_question.php">
               <i class="mdi mdi-format-list-bulleted menu-icon"></i>
               <span class="menu-title">Forms</span>
             </a>

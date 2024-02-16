@@ -1,3 +1,4 @@
+<?php include '../includes/config.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,15 +6,64 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Breeze Admin</title>
-    <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css" />
-    <link rel="stylesheet" href="../../assets/vendors/flag-icon-css/css/flag-icon.min.css" />
-    <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css" />
-    <link rel="stylesheet" href="../../assets/vendors/select2/select2.min.css" />
-    <link rel="stylesheet" href="../../assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css" />
-    <link rel="stylesheet" href="../../assets/css/style.css" />
-    <link rel="shortcut icon" href="../../assets/images/favicon.png" />
-    <link href="template/assets/css/choices.min.css" rel="stylesheet" />
-    <link href="template/assets/css/choices.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="../assets/vendors/flag-icon-css/css/flag-icon.min.css" />
+    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="../assets/vendors/select2/select2.min.css" />
+    <link rel="stylesheet" href="../assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="shortcut icon" href="../assets/images/favicon.png" />
+    <link href="../assets/css/choices.min.css" rel="stylesheet" />
+    <link href="..//assets/css/choices.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+  $(document).ready(function() {
+    // Toastr initialization
+    toastr.options = {
+      // Add any additional options here (if needed) 
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    <?php
+        // post question page
+        if (!isset($_GET['message'])) {
+                
+        }else{
+        $submitCheck=$_GET['message'];
+
+        if ($submitCheck == "empty") {
+        echo "toastr.error('All fields are required');";
+        }
+        elseif ($submitCheck == "error") {
+        echo "toastr.error('Failed to post questions, please try again');";
+
+        }elseif ($submitCheck == "questionexists") {
+        echo "toastr.error('Question exists, please try again');";
+
+        }elseif ($submitCheck == "success") {
+        echo "toastr.success('Question Posted successfully');";
+        }
+        }
+    ?>
+  });
+  </script>
 
     
   </head>
@@ -23,7 +73,7 @@
         <div class="text-center sidebar-brand-wrapper d-flex align-items-center"><br>
           <!-- <a class="sidebar-brand brand-logo" href="index.html"><img src="template/assets/images/browser-logo/firefox-logo.png" alt=""> QUESTIONNAIRE</a>
           <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img src="template/assets/images/browser-logo/firefox-logo.png" alt="logo" ></a> -->
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="../index.php">
             <h4 class="menu-title">T.K CONFLICT MODE <br> QUESTIONNAIRE</h4>
           </a>        </div>
         <ul class="nav">
@@ -42,7 +92,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../index.html">
+            <a class="nav-link" href="../index.php">
               <i class="mdi mdi-home menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
@@ -74,7 +124,7 @@
             </a>
           </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="../../pages/forms/basic_elements.html">
+            <a class="nav-link" href="">
               <i class="mdi mdi-format-list-bulleted menu-icon"></i>
               <span class="menu-title">Forms</span>
             </a>
@@ -268,7 +318,7 @@
                     <h4 class="card-title">Default form</h4>
                     <p class="card-description">Basic form layout</p>
                    
-                    <form class="needs-validation" novalidate="novalidate">
+                    <form method="POST" action="php_action/post.php" class="needs-validation" novalidate="novalidate">
                      
                       <div class="mb-3">
                         <!-- <label for="organizerSingle2">Single</label> -->
@@ -278,18 +328,51 @@
                         </select><br>
 
                         <div class="mb-3">
-                          <label for="question30" class="form-label">Question 30:</label><br><br>
-                          <input type="text" name="" id="" placeholder="Question Number">
+                          <?php 
+                            if (isset($_GET['question_no'])) {
+                              $question_no=$_GET['question_no'];
+                      
+                              echo '
+                              <div class="col-sm-6 col-lg-6">
+                              <label for="question_no" class="form-label">Question Number</label>
+                              <input type="text" class="form-control" name="question_no" id="question_no" placeholder="" value="'.$question_no.'">
+                                </div>';
+                            
+                            }else{
+                            echo '<div class="col-sm-6 col-lg-6">
+                            <label for="question_no" class="form-label">Question Number</label>
+                            <input type="text" class="form-control" name="question_no" id="question_no" placeholder="Question Number" value="">
+                              </div>';
+                            }
+                          ?>
                          <div class="form-check">
-                          <input type="text" name="question" id="" placeholder="Option A">
-                          <select name="" id="">
-                            <option value="1">Accomodating</option>
-                          </select>
+                          <input type="text" name="option_a" id="" placeholder="Option A">
+                          <select class="" name="response_criteria_a" >
+                            <option value="" selected disabled>--SELECT OPTION--</option>
+                            <?php
+
+                              $result = mysqli_query($conn,"SELECT * FROM response_criteria");
+                              while($row = mysqli_fetch_array($result)) {
+                              ?>
+                              <option value="<?=$row["response_criteria_id"];?>"><?= $row["response_criteria_name"];?></option>
+                              <?php
+                              }
+                            ?>
+                        </select>
                          </div> <div class="form-check">
-                          <input type="text" name="question" id="" placeholder="Option B">
-                          <select name="" id="">
-                            <option value="1">Avoiding</option>
-                          </select>
+                          <input type="text" name="option_b" id="" placeholder="Option B">
+                          <select class="" name="response_criteria_b" >
+                            <option value="" selected disabled>--SELECT OPTION--</option>
+                            <?php
+
+                              $result = mysqli_query($conn,"SELECT * FROM response_criteria");
+                              while($row = mysqli_fetch_array($result)) {
+                              ?>
+                              <option value="<?=$row["response_criteria_id"];?>"><?= $row["response_criteria_name"];?></option>
+                              <?php
+                              }
+                            ?>
+                        </select>
                          </div>
                         </div>
                         
@@ -829,7 +912,7 @@
 
 
                         <div class="invalid-feedback">Please select one</div>
-                      </div><button class="btn btn-primary" type="submit">Submit form</button>
+                      </div><button class="btn btn-primary" type="submit" name="post_question">Submit form</button>
                     </form>
                     
               
